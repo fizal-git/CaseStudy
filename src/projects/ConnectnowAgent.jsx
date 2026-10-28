@@ -4,7 +4,7 @@ import { BASE_CSS, SHARED_CSS } from "../styles.js";
 
 /* ------------------------------------------------------------------ */
 /* Content sourced from the Figma file "Connectnow-Mobile-App",        */
-/* section "Agent Flow_V2" (screens A01–A13 + menu prototype frames).  */
+/* agent flow section (screens A01–A13 + menu prototype frames).  */
 /* Screen copy, names and numbers are the design's own sample data.    */
 /* ------------------------------------------------------------------ */
 
@@ -550,7 +550,7 @@ export default function ConnectnowAgent() {
         </p>
         <div className="hero-meta">
           <div><label>Role</label>Senior UX/UI Designer</div>
-          <div><label>Stage</label>Proof of concept · Agent flow V2</div>
+          <div><label>Stage</label>Proof of concept · Agent flow</div>
           <div><label>Scope</label>13 screens + menu prototype</div>
           <div><label>Platform</label>iOS · 390 × 844</div>
         </div>
@@ -705,7 +705,7 @@ export default function ConnectnowAgent() {
         <div className="kicker">05 — The screens</div>
         <h2 className="h2">Every screen, and why it's there.</h2>
         <p className="lead-p">
-          All 13 screens from the Agent Flow V2 file, grouped by what the agent is trying to do — each with what it does, the research and reasoning behind it, and the value it adds for agents and for Connectnow.
+          All 13 screens from the agent flow, grouped by what the agent is trying to do — each with what it does, the research and reasoning behind it, and the value it adds for agents and for Connectnow.
         </p>
         {STORIES.map((g) => (
           <div className="story-group" key={g.group}>

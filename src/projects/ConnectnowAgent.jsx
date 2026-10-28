@@ -16,7 +16,7 @@ const SCREENS = {
   home: { code: "A02", src: S("a02-home.png"), title: "Home — stats, nudges, quick actions", h: 844 },
   newref: { code: "A03", src: S("a03-new-referral.png"), title: "New referral — quick fill, duplicate check, consent", h: 1349 },
   send: { code: "A04", src: S("a04-send.png"), title: "Send — multi-channel + message preview", h: 838 },
-  qr: { code: "A05", src: S("a05-qr.png"), title: "QR handoff — in-person referral", h: 815 },
+  qr: { code: "A05", src: S("a05-qr.png"), title: "QR code — instant in-person referral", h: 815 },
   referrals: { code: "A06", src: S("a06-referrals.png"), title: "Referrals — search, filters, status", h: 844 },
   detail: { code: "A07", src: S("a07-detail.png"), title: "Referral detail — timeline + actions", h: 979 },
   dashboard: { code: "A08", src: S("a08-dashboard.png"), title: "Dashboard — funnel, rank, accessible KPIs", h: 844 },
@@ -35,7 +35,7 @@ const PERSONAS = [
     role: "Property Manager, Richmond Property Group",
     stats: [["Location", "Melbourne"], ["Device", "iPhone"], ["Context", "Between inspections"]],
     background:
-      "Jordan manages leases and sales handovers across a busy inner-city rental book. New tenants constantly ask the same question at key handover — “how do I get the power on?” — and Jordan has no fast, trustworthy way to help.",
+      "Jordan manages leases and sales handovers across a busy inner-city rental book. New tenants constantly ask the same question — “how do I get the power on?” — and Jordan has no fast, trustworthy way to help.",
     situation:
       "Referrals today depend on paper forms, forwarded emails and memory. Once a tenant is passed on, Jordan has no visibility of whether they ever connected — and no reason to keep referring.",
     goals: [
@@ -84,9 +84,9 @@ const JOURNEY = [
     decision: { title: "Show the message before it's sent", text: "Previewing (and editing) the SMS builds trust on both sides, and the footnote sets expectations: link expires in 7 days, automatic reminder after 48 hours." },
   },
   {
-    phase: "05", shot: "qr", title: "Hand off in person",
-    text: "At key handover, Jordan shows a QR code for Sarah to scan. The screen reports live status (“Waiting for Sarah to scan…”) and offers copy, share and print.",
-    decision: { title: "Design for the physical moment", text: "A printable QR and the tip to drop it in the welcome pack or key envelope extend the referral beyond the phone screen." },
+    phase: "05", shot: "qr", title: "Share in person",
+    text: "When Sarah is with Jordan in person, he can show a QR code instead of sending an SMS or email. It opens the same secure link, so Sarah scans it with her phone camera and starts her application on the spot. Live status (“Waiting for Sarah to scan…”) confirms it worked.",
+    decision: { title: "QR is just another channel", text: "The QR carries exactly the same referral link as SMS and email — no new flow to learn. In person, it removes the wait for a message to arrive, so the customer can proceed instantly while the agent is there to help." },
   },
   {
     phase: "06", shot: "detail", title: "Track progress",
@@ -117,7 +117,7 @@ const IA = {
 
 const FLOWS = [
   { title: "Refer remotely", steps: ["Home", "New referral", "Property + customer details", "Choose SMS / email", "Sent", "Track in Referrals"] },
-  { title: "Refer in person", steps: ["Home", "QR referral", "Customer scans", "Live status", "Done"] },
+  { title: "Refer in person", steps: ["Home", "QR referral", "Customer scans with camera", "Same secure link opens", "Customer proceeds instantly"] },
   { title: "Follow up a stalled customer", steps: ["Notification / Needs attention", "Referral detail", "Nudge, call or resend"] },
   { title: "Redeem rewards", steps: ["Dashboard", "Rewards", "Redeem", "Confirm sheet", "Voucher emailed"] },
 ];
@@ -212,15 +212,15 @@ const STORIES = [
       },
       {
         k: "qr",
-        about: "For in-person handovers, the agent shows a QR code tied to the referral. The screen shows live status (“Waiting for Sarah to scan…”) and offers copy link, share and print.",
+        about: "The QR code works the same way as the SMS and email options — it opens the same secure referral link. When the customer is in person, the agent shows the code, the customer scans it with their phone camera and proceeds straight into their application. Live status (“Waiting for Sarah to scan…”) confirms the scan, with options to copy or share the link.",
         research: [
-          "Key handover is the moment agent and tenant are physically together — the strongest moment to start the connection, and where typing details on a phone is least practical.",
-          "Live status gives immediate feedback (Nielsen #1) so the agent knows the scan worked before the customer walks away.",
-          "Printing extends the referral into existing artefacts — welcome packs and key envelopes — without new process for the agency.",
+          "SMS and email depend on the message arriving and the customer acting on it later — when it can be missed, filtered or forgotten. Face to face, a QR code lets them start immediately.",
+          "Using one link for every channel keeps a single flow to design, build and support — and a consistent experience for the customer, however they received it.",
+          "Live status gives immediate feedback (Nielsen #1) so the agent knows the scan worked, and can answer questions while the customer gets started.",
         ],
         value: {
-          agent: "A referral made in seconds, face to face, with no typing.",
-          business: "Captures customers at the highest-intent moment of their move.",
+          agent: "The customer starts on the spot — no waiting for an SMS or email to arrive.",
+          business: "Applications begin at the highest-intent moment, while the agent is there to help.",
         },
       },
     ],
@@ -454,7 +454,7 @@ export default function ConnectnowAgent() {
               more than a minute, or if they never hear what happened next, the referral simply doesn't get made.
             </p>
             <p className="lead-p">
-              The design challenge was to make referring fast enough to do at key handover, transparent
+              The design challenge was to make referring fast enough to do between appointments or face to face, transparent
               enough that agents trust it, and rewarding enough that they keep doing it — while making
               the message the customer receives feel personal rather than like marketing.
             </p>

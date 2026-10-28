@@ -121,11 +121,195 @@ const FLOWS = [
   { title: "Redeem rewards", steps: ["Dashboard", "Rewards", "Redeem", "Confirm sheet", "Voucher emailed"] },
 ];
 
-const GALLERY = [
-  { group: "Get in", keys: ["signin", "home", "menu", "logout"] },
-  { group: "Refer", keys: ["newref", "send", "qr"] },
-  { group: "Track", keys: ["referrals", "detail", "notifications"] },
-  { group: "Earn", keys: ["dashboard", "rewards", "redeem"] },
+/* Screen-by-screen story. "Research" draws on the brief and on established
+   UX principles (named) — not on invented study data. */
+const STORIES = [
+  {
+    group: "Get in",
+    items: [
+      {
+        k: "signin",
+        about: "Agents sign in with their work email and receive a one-tap magic link. Face ID is offered for every visit after that, and new agencies can request access.",
+        research: [
+          "The brief positions this as a tool agents open in short bursts between inspections — so any password, reset or 2FA step is friction that competes with their real job.",
+          "Recognition over recall (Nielsen heuristic #6): a work email is something agents already know; a new password is something they must remember.",
+          "Tying access to a work email domain lets Connectnow confirm which agency the agent belongs to without a manual approval step.",
+        ],
+        value: {
+          agent: "No password to create, remember or reset — first sign-in in a single tap.",
+          business: "Verified agency identity from day one, and fewer support requests for locked accounts.",
+        },
+      },
+      {
+        k: "home",
+        about: "Home answers “what needs me today?”: a greeting with points balance, the Power On Guarantee, this month's referrals / connections / conversion, the two primary actions, customers who need attention, and recent referrals.",
+        research: [
+          "Visibility of system status (Nielsen #1): agents need to see results without hunting — so the three numbers that matter sit above the fold.",
+          "Hick's law: only two primary actions (New referral, QR referral) keep the main decision instant.",
+          "Agents rarely go looking for problems, so stalled customers are pushed to them with the fix (Nudge / Call) attached rather than buried in a list.",
+        ],
+        value: {
+          agent: "Everything urgent and every action is reachable within one screen and one tap.",
+          business: "Stalled referrals get followed up instead of silently dropping out of the funnel.",
+        },
+      },
+      {
+        k: "menu",
+        about: "The side menu holds the agent's profile card (name, agency, points and tier), My profile, Resources, Logout and the app version.",
+        research: [
+          "Frequency of use drives placement: profile and resources are occasional tasks, so they live behind the menu instead of taking space in the bottom navigation.",
+          "Repeating the points and tier in the profile card reinforces the reward loop every time the agent opens the menu.",
+        ],
+        value: {
+          agent: "A clean bottom nav for daily tasks, with account items still one tap away.",
+          business: "A home for training material and resources that can grow without redesigning navigation.",
+        },
+      },
+      {
+        k: "logout",
+        about: "Logging out asks for confirmation and reassures the agent that referrals and points are saved, with a clear Cancel next to the destructive action.",
+        research: [
+          "Error prevention (Nielsen #5): logging out is easy to tap by accident next to menu items, and the magic-link sign-in makes getting back in a multi-step process.",
+          "Stating what is kept (“Your referrals and points are saved”) addresses loss aversion — the main fear when leaving an app holding rewards.",
+        ],
+        value: {
+          agent: "No accidental logouts, and no anxiety about losing earned points.",
+          business: "Fewer support contacts from agents who think their history has gone.",
+        },
+      },
+    ],
+  },
+  {
+    group: "Refer",
+    items: [
+      {
+        k: "newref",
+        about: "Step 1 of 2. Agents can prefill from a scanned application, the CRM or contacts, then confirm the property address, unit, state, move-in date and the customer's name, mobile and email — with explicit customer consent before continuing.",
+        research: [
+          "The brief requires agents to enter customer details; agents already hold those details in rental applications and CRMs, so retyping them is pure waste — hence the quick-fill chips.",
+          "Error prevention: the duplicate-address warning stops two agents (or one agent twice) contacting the same tenant, which would erode customer trust.",
+          "Privacy obligations mean consent must be recorded before a customer is contacted, so it is a required, plainly worded checkbox rather than small print.",
+          "A visible 2-step progress bar sets expectations and uses the goal-gradient effect — people speed up as they see the end.",
+        ],
+        value: {
+          agent: "A referral in well under a minute when details can be imported.",
+          business: "Cleaner, consented, de-duplicated leads entering the connection pipeline.",
+        },
+      },
+      {
+        k: "send",
+        about: "Step 2 of 2. Agents choose one or more channels — SMS, email or QR in person — and see a live, editable preview of the message the customer will receive, plus the link expiry and reminder rules.",
+        research: [
+          "The brief names email, SMS and QR; agents know which channel each customer actually reads, so channels are multi-select rather than one forced choice.",
+          "Customers are wary of unexpected links. A message that names the agent, agency, address and move-in date is far more recognisable than a generic one — so the preview makes that personal content visible and editable.",
+          "Stating “expires in 7 days · reminder after 48 hours” gives the agent a clear mental model of what happens next without them chasing.",
+        ],
+        value: {
+          agent: "Confidence in exactly what their customer will see, sent in their own voice.",
+          business: "Higher open rates from trusted, personal messages and automated reminders.",
+        },
+      },
+      {
+        k: "qr",
+        about: "For in-person handovers, the agent shows a QR code tied to the referral. The screen shows live status (“Waiting for Sarah to scan…”) and offers copy link, share and print.",
+        research: [
+          "Key handover is the moment agent and tenant are physically together — the strongest moment to start the connection, and where typing details on a phone is least practical.",
+          "Live status gives immediate feedback (Nielsen #1) so the agent knows the scan worked before the customer walks away.",
+          "Printing extends the referral into existing artefacts — welcome packs and key envelopes — without new process for the agency.",
+        ],
+        value: {
+          agent: "A referral made in seconds, face to face, with no typing.",
+          business: "Captures customers at the highest-intent moment of their move.",
+        },
+      },
+    ],
+  },
+  {
+    group: "Track",
+    items: [
+      {
+        k: "referrals",
+        about: "All referrals with search by name, address or reference, filter chips with counts (All, Needs action, Invited, In progress, Submitted, Connected), and grouping by Needs action and This week.",
+        research: [
+          "The brief asks for status tracking. Agents think in terms of “who do I need to chase?”, so Needs action is always grouped first.",
+          "Counts on every filter let agents see the shape of their pipeline before tapping anything.",
+          "Status pills always carry a text label, so meaning never depends on colour alone (WCAG 1.4.1).",
+        ],
+        value: {
+          agent: "Find any customer in seconds and see who needs a nudge at a glance.",
+          business: "A consistent status language shared between app, agents and support.",
+        },
+      },
+      {
+        k: "detail",
+        about: "A single referral: reference, status, address, move-in date and contact details; quick actions to Call, SMS, Resend or Copy link; a five-step progress timeline; and the points pending on connection.",
+        research: [
+          "Agents are asked by customers and landlords “is the power going to be on?” — a timeline from invitation to power connected lets them answer with confidence.",
+          "Putting the follow-up actions next to the status removes the gap between noticing a problem and fixing it.",
+          "Showing “+100 points pending” links each referral to its reward, applying the endowed-progress effect to keep agents invested until connection.",
+        ],
+        value: {
+          agent: "Full visibility of each customer's progress and the tools to move it forward.",
+          business: "More referrals reach Connected because agents can see — and remove — blockers.",
+        },
+      },
+      {
+        k: "notifications",
+        about: "Events that need the agent, grouped by Today and Earlier: a link opened, power connected with points added, an invite not opened (with Send a nudge), a tier reached and a monthly summary.",
+        research: [
+          "Notifications are limited to events that either reward the agent or need their action — anything else is noise that trains people to ignore alerts.",
+          "Inline actions (Send a nudge, View summary) let agents act from the notification itself rather than navigating.",
+        ],
+        value: {
+          agent: "Told only when something matters, with the next step built in.",
+          business: "Timely follow-ups and positive reinforcement that keep agents engaged.",
+        },
+      },
+    ],
+  },
+  {
+    group: "Earn",
+    items: [
+      {
+        k: "dashboard",
+        about: "Points and tier with Redeem, the referral funnel (Sent → Opened → Submitted → Connected) with counts and percentages, KPI tiles for conversion, days to submit and in progress, and an office leaderboard.",
+        research: [
+          "The brief asks agents to track conversions. A funnel shows where referrals are lost, and the caption names the biggest drop and the fix, turning data into an action.",
+          "KPI changes pair arrows with values and text, never colour alone, so they read correctly for colour-blind users (WCAG 1.4.1).",
+          "A small, local leaderboard (“2 more connections to take #1”) uses social comparison to motivate without making most people feel they can never win.",
+        ],
+        value: {
+          agent: "Clear progress, a concrete next goal and a reason to keep referring.",
+          business: "Agents self-correct (e.g. nudging sooner), improving overall conversion.",
+        },
+      },
+      {
+        k: "rewards",
+        about: "Available balance, Silver tier progress towards Gold and its perk, a Redeem points action, how points are earned (+100 connected, +50 add-on, +200 monthly bonus, +20 QR), and recent activity.",
+        research: [
+          "The brief specifies redeemable points per conversion. Incentives only change behaviour when people understand the rules — so “How you earn” lists every rule with its value.",
+          "The progress bar to Gold and its perk use the goal-gradient effect: a visible, near target motivates more than an abstract balance.",
+          "Bonus rules (add-ons, QR, monthly streak) deliberately reward the behaviours Connectnow wants more of.",
+        ],
+        value: {
+          agent: "Transparent, predictable rewards they can plan around.",
+          business: "A lever to encourage cross-sell, in-person referrals and consistent monthly activity.",
+        },
+      },
+      {
+        k: "redeem",
+        about: "A rewards catalogue filtered by Gift cards, Team treats and Give back, with a confirm sheet showing cost, balance after and the delivery email before redeeming.",
+        research: [
+          "Agents work in teams, so rewards include team treats and charity alongside personal gift cards — recognising that not everyone is motivated by the same thing.",
+          "Error prevention: redemption can't be undone, so the confirm sheet states the cost, the remaining balance and where the voucher goes.",
+        ],
+        value: {
+          agent: "Rewards that suit them or their office, with no surprises at checkout.",
+          business: "Tangible pay-off that closes the loop and sustains the referral habit.",
+        },
+      },
+    ],
+  },
 ];
 
 const TOKENS = [
@@ -247,15 +431,32 @@ const CN_CSS = `
   @media (max-width:700px){ .cn-root .journey-panel-body{grid-template-columns:1fr;} .cn-journey-shot{max-width:260px;} }
   .journey-node.active .journey-node-dot{border-color:var(--accent); background:var(--accent);}
 
-  .gallery-group{margin-bottom:var(--s7);}
-  .gallery-group h3{font-family:'Playfair Display'; font-weight:700; font-size:18px; margin:0 0 16px;}
-  .gallery-row{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:20px; align-items:start;}
-  .gallery-item{display:flex; flex-direction:column; gap:10px; min-width:0;}
-  .gallery-item .cap{font-family:'Work Sans'; font-weight:500; font-size:12px; color:var(--muted); line-height:1.4;}
-  .gallery-item .cap b{display:block; color:var(--ink); font-weight:600; font-size:12.5px;}
-  @media (max-width:900px){ .gallery-row{grid-template-columns:repeat(3, minmax(0,1fr));} }
-  @media (max-width:640px){ .gallery-row{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:12px;} .gallery-item{flex:0 0 68%; scroll-snap-align:start;} }
-
+  .story-group{margin-bottom:var(--s8);}
+  .story-group-title{font-family:'IBM Plex Mono'; font-weight:600; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:0 0 var(--s5); padding-bottom:12px; border-bottom:1px solid var(--line);}
+  .story{display:grid; grid-template-columns:280px 1fr; gap:var(--s8); align-items:start; padding:var(--s6) 0; border-bottom:1px solid var(--line);}
+  .story:last-child{border-bottom:none;}
+  .story.flip{grid-template-columns:1fr 280px;}
+  .story.flip .story-shot{order:2;}
+  .story-shot{position:sticky; top:96px;}
+  .story-code{color:var(--accent); font-weight:600;}
+  .story-title{font-family:'Playfair Display'; font-weight:700; font-size:clamp(22px,2.6vw,28px); margin:6px 0 4px; line-height:1.2;}
+  .story-sub{font-size:14px; color:var(--mutedLight); margin:0 0 var(--s5);}
+  .story-block{margin-bottom:var(--s5);}
+  .story-block:last-child{margin-bottom:0;}
+  .story-about{font-size:16px; margin:0; max-width:620px;}
+  .story-research{list-style:none; margin:0; padding:0; display:grid; gap:10px; max-width:620px;}
+  .story-research li{font-size:14px; color:var(--muted); background:var(--paper2); border-radius:10px; padding:12px 14px 12px 36px; position:relative;}
+  .story-research li::before{content:''; position:absolute; left:15px; top:19px; width:7px; height:7px; border-radius:50%; background:var(--accent);}
+  .story-value{display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:620px;}
+  .story-value div{background:var(--accentSoft); border-radius:10px; padding:14px 16px;}
+  .story-value b{display:block; font-family:'Work Sans'; font-weight:600; font-size:13px; color:var(--accent); margin-bottom:4px;}
+  .story-value span{font-size:14px; color:var(--ink);}
+  @media (max-width:820px){
+    .story, .story.flip{grid-template-columns:1fr; gap:var(--s5);}
+    .story.flip .story-shot{order:0;}
+    .story-shot{position:static; max-width:280px; width:100%; margin:0 auto;}
+    .story-value{grid-template-columns:1fr;}
+  }
   .decision-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s3);}
   @media (max-width:640px){ .decision-grid{grid-template-columns:1fr;} }
   .decision-card{background:var(--paper2); border-radius:14px; padding:var(--s4) var(--s5);}
@@ -502,24 +703,44 @@ export default function ConnectnowAgent() {
       {/* SCREENS */}
       <section className="wrap" data-section="screens" ref={setRef("screens")}>
         <div className="kicker">05 — The screens</div>
-        <h2 className="h2">Thirteen screens, four jobs.</h2>
+        <h2 className="h2">Every screen, and why it's there.</h2>
         <p className="lead-p">
-          Every screen from the Agent Flow V2 file, grouped by what the agent is trying to do.
+          All 13 screens from the Agent Flow V2 file, grouped by what the agent is trying to do — each with what it does, the research and reasoning behind it, and the value it adds for agents and for Connectnow.
         </p>
-        {GALLERY.map((g) => (
-          <div className="gallery-group" key={g.group}>
-            <h3>{g.group}</h3>
-            <div className="gallery-row">
-              {g.keys.map((k) => {
-                const [name, detail] = SCREENS[k].title.split(" — ");
-                return (
-                  <div className="gallery-item" key={k}>
-                    <Phone k={k} fixed />
-                    <span className="cap"><b>{SCREENS[k].code} · {name}</b>{detail.charAt(0).toUpperCase() + detail.slice(1)}</span>
+        {STORIES.map((g) => (
+          <div className="story-group" key={g.group}>
+            <h3 className="story-group-title">{g.group}</h3>
+            {g.items.map((it, idx) => {
+              const sc = SCREENS[it.k];
+              const [name, detail] = sc.title.split(" — ");
+              return (
+                <article className={`story ${idx % 2 ? "flip" : ""}`} key={it.k}>
+                  <div className="story-shot"><Phone k={it.k} fixed /></div>
+                  <div className="story-copy">
+                    <span className="mono story-code">Screen {sc.code}</span>
+                    <h4 className="story-title">{name}</h4>
+                    <p className="story-sub">{detail.charAt(0).toUpperCase() + detail.slice(1)}</p>
+                    <div className="story-block">
+                      <div className="journey-block-label">WHAT THIS SCREEN DOES</div>
+                      <p className="story-about">{it.about}</p>
+                    </div>
+                    <div className="story-block">
+                      <div className="journey-block-label">RESEARCH &amp; RATIONALE</div>
+                      <ul className="story-research">
+                        {it.research.map((r) => <li key={r}>{r}</li>)}
+                      </ul>
+                    </div>
+                    <div className="story-block">
+                      <div className="journey-block-label">VALUE ADDED</div>
+                      <div className="story-value">
+                        <div><b>For agents</b><span>{it.value.agent}</span></div>
+                        <div><b>For Connectnow</b><span>{it.value.business}</span></div>
+                      </div>
+                    </div>
                   </div>
-                );
-              })}
-            </div>
+                </article>
+              );
+            })}
           </div>
         ))}
       </section>

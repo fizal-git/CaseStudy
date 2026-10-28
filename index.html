@@ -2,6 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      /* Old address → new address (keeps the #/project part of the link) */
+      if (location.hostname === "energyhubcasestudy.vercel.app") {
+        location.replace("https://fizalcasestudies.vercel.app" + location.pathname + location.search + location.hash);
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mohammed Fizal — Portfolio</title>

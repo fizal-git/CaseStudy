@@ -24,12 +24,18 @@ const CARDS = [
     ),
   },
   {
-    href: null,
+    href: "#/connectnow-customer",
     num: "Case study 03",
-    title: "Connectnow Customer App",
-    text: "The customer side of the Connectnow app: Google sign-in, connection tracking and cross-sell of other services. Case study in progress.",
-    tags: ["iOS mobile app", "Order tracking", "Cross-sell"],
-    visual: <span className="soon-badge">Coming soon</span>,
+    title: "Connectnow Customer App — from an agent's text to power on.",
+    text: "The customer side of the referral: Google or guest sign-in, scan-assisted ID, live connection tracking and one-tap cross-sell of internet and gas.",
+    tags: ["iOS mobile app", "Onboarding", "Identity verification", "Cross-sell"],
+    visual: (
+      <div className="phone-trio">
+        <img src="/connectnow-customer/c04-confirm-checklist.png" alt="" />
+        <img src="/connectnow-customer/c01-welcome.png" alt="" />
+        <img src="/connectnow-customer/c11-success.png" alt="" />
+      </div>
+    ),
   },
 ];
 

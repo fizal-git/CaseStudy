@@ -274,10 +274,11 @@ a.home-card:hover{transform:translateY(-3px); box-shadow:0 24px 48px -28px rgba(
 
 /* PHONE TRIO (cover + hero) */
 .phone-trio{display:flex; align-items:flex-end; justify-content:center; gap:16px; padding:32px 16px 0;}
-.phone-trio img{width:30%; max-width:200px; border-radius:22px 22px 0 0; box-shadow:0 20px 40px -18px rgba(0,0,0,.35); display:block;}
+.phone-trio img{height:auto; width:30%; max-width:200px; border-radius:22px 22px 0 0; box-shadow:0 20px 40px -18px rgba(0,0,0,.35); display:block;}
 .phone-trio img:nth-child(2){width:34%; max-width:230px;}
 
 /* PHONE SCREEN */
 .phone{background:#fff; border-radius:26px; padding:6px; box-shadow:0 22px 44px -22px rgba(23,23,23,.4), 0 0 0 1px rgba(0,0,0,.06); }
-.phone img{width:100%; display:block; border-radius:21px;}
+.phone img{width:100%; height:auto; max-width:none; display:block; border-radius:21px;}
+.phone-scroll img{border-radius:0;}
 `;

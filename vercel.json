@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "energyhubcasestudy.vercel.app" }],
+      "destination": "https://fizalcasestudies.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}
